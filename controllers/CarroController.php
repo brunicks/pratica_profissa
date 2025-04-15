@@ -46,6 +46,40 @@ class CarroController {
         }
     }
 
+    public function busca() {
+        try {
+            $filtros = [
+                'marca' => $_GET['marca'] ?? null,
+                'preco_min' => $_GET['preco_min'] ?? null,
+                'preco_max' => $_GET['preco_max'] ?? null,
+                'ano_min' => $_GET['ano_min'] ?? null,
+                'ano_max' => $_GET['ano_max'] ?? null,
+                'km_max' => $_GET['km_max'] ?? null,
+                'cambio' => $_GET['cambio'] ?? null,
+                'combustivel' => $_GET['combustivel'] ?? null,
+                'cor' => $_GET['cor'] ?? null,
+                'portas' => $_GET['portas'] ?? null,
+                'status' => $_GET['status'] ?? null,
+                'ordenar_por' => $_GET['ordenar_por'] ?? null,
+                'direcao' => $_GET['direcao'] ?? null
+            ];
+            
+            // Remover filtros vazios
+            $filtros = array_filter($filtros, function($valor) {
+                return $valor !== null && $valor !== '';
+            });
+            
+            $carros = $this->carroModel->buscar($filtros);
+            $isAdmin = isset($_SESSION['user']) && $_SESSION['user']['admin'] == 1;
+            $marcas = $this->carroModel->listarMarcas();
+            
+            include __DIR__ . '/../views/carros_busca.php';
+        } catch (Exception $e) {
+            $erro = "Erro ao buscar carros: " . $e->getMessage();
+            include __DIR__ . '/../views/erro.php';
+        }
+    }
+
     public function cadastrar() {
         $this->verificarAdmin();
         $erro = null;
@@ -458,7 +492,7 @@ class CarroController {
             
             try {
                 $this->carroModel->excluir($id);
-                header("Location: index.php?url=carros?excluido=1");
+                header("Location: index.php?url=carros&excluido=1");
                 exit;
             } catch (Exception $e) {
                 $erro = "Erro ao excluir carro: " . $e->getMessage();

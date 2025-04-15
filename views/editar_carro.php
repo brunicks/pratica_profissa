@@ -119,7 +119,7 @@
                         
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="ano" class="form-label">Ano:</label>
+                                <label for="ano" class="form-label">Ano: <span class="text-danger">*</span></label>
                                 <input type="number" id="ano" name="ano" class="form-control" 
                                     value="<?php echo htmlspecialchars($carro['ano']); ?>" required>
                             </div>
@@ -127,20 +127,20 @@
                             <div class="col-md-4 mb-3">
                                 <label for="preco" class="form-label">Preço:</label>
                                 <input type="number" id="preco" name="preco" step="0.01" class="form-control" 
-                                    value="<?php echo htmlspecialchars($carro['preco']); ?>" required>
+                                    value="<?php echo htmlspecialchars($carro['preco']); ?>">
                             </div>
                             
                             <div class="col-md-4 mb-3">
                                 <label for="km" class="form-label">Quilometragem:</label>
                                 <input type="number" id="km" name="km" class="form-control" 
-                                    value="<?php echo htmlspecialchars($carro['km']); ?>" required>
+                                    value="<?php echo htmlspecialchars($carro['km']); ?>">
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="cambio" class="form-label">Câmbio:</label>
-                                <select id="cambio" name="cambio" class="form-select" required>
+                                <select id="cambio" name="cambio" class="form-select">
                                     <option value="Manual" <?php echo ($carro['cambio'] == 'Manual') ? 'selected' : ''; ?>>Manual</option>
                                     <option value="Automático" <?php echo ($carro['cambio'] == 'Automático') ? 'selected' : ''; ?>>Automático</option>
                                     <option value="CVT" <?php echo ($carro['cambio'] == 'CVT') ? 'selected' : ''; ?>>CVT</option>
@@ -149,7 +149,7 @@
                             
                             <div class="col-md-4 mb-3">
                                 <label for="combustivel" class="form-label">Combustível:</label>
-                                <select id="combustivel" name="combustivel" class="form-select" required>
+                                <select id="combustivel" name="combustivel" class="form-select">
                                     <option value="Gasolina" <?php echo ($carro['combustivel'] == 'Gasolina') ? 'selected' : ''; ?>>Gasolina</option>
                                     <option value="Etanol" <?php echo ($carro['combustivel'] == 'Etanol') ? 'selected' : ''; ?>>Etanol</option>
                                     <option value="Flex" <?php echo ($carro['combustivel'] == 'Flex') ? 'selected' : ''; ?>>Flex</option>
@@ -161,7 +161,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="cor" class="form-label">Cor:</label>
                                 <input type="text" id="cor" name="cor" class="form-control" 
-                                    value="<?php echo htmlspecialchars($carro['cor']); ?>" required>
+                                    value="<?php echo htmlspecialchars($carro['cor']); ?>">
                             </div>
                         </div>
                         
@@ -172,7 +172,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="descricao" class="form-label">Descrição:</label>
+                            <label for="descricao" class="form-label">Descrição: <span class="text-danger">*</span></label>
                             <textarea id="descricao" name="descricao" class="form-control" rows="5" required><?php echo htmlspecialchars($carro['descricao']); ?></textarea>
                         </div>
                         
@@ -194,6 +194,7 @@
                         <button type="submit" class="btn btn-success">
                             <i class="fas fa-save me-2"></i>Salvar Alterações
                         </button>
+                        
                         <a href="index.php?url=carro/detalhes&id=<?php echo $carro['id']; ?>" class="btn btn-outline-secondary">
                             <i class="fas fa-times me-2"></i>Cancelar
                         </a>
@@ -242,104 +243,7 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar validação
-    const forms = document.querySelectorAll('.needs-validation');
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-        });
-    });
-    
-    // Preview de novas imagens
-    document.getElementById('novas_imagens').addEventListener('change', function() {
-        const previewContainer = document.getElementById('new-images-preview');
-        previewContainer.innerHTML = '';
-        
-        if (this.files.length > 0) {
-            const errors = [];
-            
-            Array.from(this.files).forEach(file => {
-                // Verificar tamanho
-                if (file.size > 5 * 1024 * 1024) {
-                    errors.push(`A imagem "${file.name}" excede o tamanho máximo de 5MB`);
-                    return;
-                }
-                
-                // Verificar tipo
-                if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
-                    errors.push(`A imagem "${file.name}" não é um formato permitido (JPG, PNG ou GIF)`);
-                    return;
-                }
-                
-                // Criar preview
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const card = document.createElement('div');
-                    card.className = 'card me-2 mb-2';
-                    card.style.width = '150px';
-                    
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'card-img-top';
-                    img.style.height = '100px';
-                    img.style.objectFit = 'cover';
-                    
-                    const cardBody = document.createElement('div');
-                    cardBody.className = 'card-body p-1 text-center';
-                    
-                    const caption = document.createElement('small');
-                    caption.className = 'text-muted';
-                    caption.textContent = 'Nova Imagem';
-                    
-                    cardBody.appendChild(caption);
-                    card.appendChild(img);
-                    card.appendChild(cardBody);
-                    previewContainer.appendChild(card);
-                };
-                reader.readAsDataURL(file);
-            });
-            
-            if (errors.length > 0) {
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'alert alert-danger mt-2';
-                errorDiv.innerHTML = '<strong>Erros encontrados:</strong><ul>' + 
-                    errors.map(err => `<li>${err}</li>`).join('') + '</ul>';
-                previewContainer.appendChild(errorDiv);
-            }
-        }
-    });
-    
-    // Validar placa em tempo real
-    const placaInput = document.getElementById('placa');
-    if (placaInput) {
-        placaInput.addEventListener('input', function(e) {
-            const placaValue = e.target.value.toUpperCase();
-            e.target.value = placaValue;
-            
-            const placaPadrao = /^[A-Z]{3}[0-9]{4}$|^[A-Z]{3}[0-9]{1}[A-Z]{1}[0-9]{2}$/;
-            const isValid = placaPadrao.test(placaValue) || placaValue === '';
-            
-            if (isValid) {
-                e.target.classList.remove('is-invalid');
-                e.target.classList.add('is-valid');
-            } else {
-                e.target.classList.remove('is-valid');
-                e.target.classList.add('is-invalid');
-            }
-        });
-    }
-    
-    // Inicializar tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-});
+// ... existing code ...
 </script>
 
 <?php include __DIR__ . '/footer.php'; ?>

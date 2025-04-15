@@ -83,10 +83,12 @@
                             <i class="fas fa-cogs"></i> Administração
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/mvc/public/index.php?url=carro/novo">Adicionar Carro</a></li>
-                            <li><a class="dropdown-item" href="/mvc/public/index.php?url=carros">Gerenciar Carros</a></li>
+                            <li><a class="dropdown-item" href="/mvc/public/index.php?url=carro/novo"><i class="fas fa-plus-circle me-2"></i>Adicionar Carro</a></li>
+                            <li><a class="dropdown-item" href="/mvc/public/index.php?url=carros"><i class="fas fa-car me-2"></i>Gerenciar Carros</a></li>
+                            <li><a class="dropdown-item" href="/mvc/public/index.php?url=users"><i class="fas fa-users me-2"></i>Gerenciar Usuários</a></li>
+                            <li><a class="dropdown-item" href="/mvc/public/index.php?url=marca/listar"><i class="fas fa-tags me-2"></i>Gerenciar Marcas</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/mvc/public/index.php?url=admin/dashboard">Painel Admin</a></li>
+                            <li><a class="dropdown-item" href="/mvc/public/index.php?url=admin/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Painel Admin</a></li>
                         </ul>
                     </li>
                     <?php endif; ?>
@@ -119,6 +121,5 @@
             </div>
         </div>
     </nav>
-    <!-- Removido a duplicação do Bootstrap JavaScript daqui -->
 </body>
 </html>

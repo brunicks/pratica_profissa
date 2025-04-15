@@ -53,10 +53,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="preco">Preço: <span class="text-danger">*</span></label>
+                    <label for="preco">Preço:</label>
                     <div class="input-group">
                         <span class="input-group-text">R$</span>
-                        <input type="number" id="preco" name="preco" step="0.01" class="form-control" required min="0"
+                        <input type="number" id="preco" name="preco" step="0.01" class="form-control" min="0"
                                data-bs-toggle="tooltip" title="Digite o valor do veículo">
                     </div>
                     <div class="invalid-feedback">Informe um preço válido (valor positivo).</div>
@@ -90,12 +90,12 @@
 
                 <div class="form-group">
                     <label for="km">Quilometragem:</label>
-                    <input type="number" id="km" name="km" class="form-control" required>
+                    <input type="number" id="km" name="km" class="form-control">
                 </div>
 
                 <div class="form-group">
                     <label for="cambio">Câmbio:</label>
-                    <select id="cambio" name="cambio" class="form-select" required>
+                    <select id="cambio" name="cambio" class="form-select">
                         <option value="Manual">Manual</option>
                         <option value="Automático">Automático</option>
                         <option value="CVT">CVT</option>
@@ -104,7 +104,7 @@
 
                 <div class="form-group">
                     <label for="combustivel">Combustível:</label>
-                    <select id="combustivel" name="combustivel" class="form-select" required>
+                    <select id="combustivel" name="combustivel" class="form-select">
                         <option value="Gasolina">Gasolina</option>
                         <option value="Etanol">Etanol</option>
                         <option value="Flex">Flex</option>
@@ -115,7 +115,7 @@
 
                 <div class="form-group">
                     <label for="cor">Cor:</label>
-                    <input type="text" id="cor" name="cor" class="form-control" required>
+                    <input type="text" id="cor" name="cor" class="form-control">
                 </div>
 
                 <div class="form-group">

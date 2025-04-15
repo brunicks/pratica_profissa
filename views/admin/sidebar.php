@@ -8,7 +8,7 @@
         
         <!-- Adicionar o link para gerenciamento de marcas -->
         <li class="nav-item">
-            <a class="nav-link" href="index.php?controller=marca&action=index">
+            <a class="nav-link" href="index.php?url=marca/listar">
                 <i class="fas fa-tag"></i> Marcas
             </a>
         </li>

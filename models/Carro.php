@@ -77,9 +77,16 @@ class Carro {
                    WHERE 1=1";
             $params = [];
             
+            // Marca
             if (!empty($filtros['marca']) && is_numeric($filtros['marca'])) {
                 $sql .= " AND c.marca_id = ?";
                 $params[] = (int)$filtros['marca'];
+            }
+            
+            // Range de preço
+            if (!empty($filtros['preco_min']) && is_numeric($filtros['preco_min'])) {
+                $sql .= " AND c.preco >= ?";
+                $params[] = (float)$filtros['preco_min'];
             }
             
             if (!empty($filtros['preco_max']) && is_numeric($filtros['preco_max'])) {
@@ -87,12 +94,67 @@ class Carro {
                 $params[] = (float)$filtros['preco_max'];
             }
             
+            // Range de ano
             if (!empty($filtros['ano_min']) && is_numeric($filtros['ano_min'])) {
                 $sql .= " AND c.ano >= ?";
                 $params[] = (int)$filtros['ano_min'];
             }
             
-            $sql .= " ORDER BY c.id DESC";
+            if (!empty($filtros['ano_max']) && is_numeric($filtros['ano_max'])) {
+                $sql .= " AND c.ano <= ?";
+                $params[] = (int)$filtros['ano_max'];
+            }
+            
+            // Quilometragem
+            if (!empty($filtros['km_max']) && is_numeric($filtros['km_max'])) {
+                $sql .= " AND c.km <= ?";
+                $params[] = (int)$filtros['km_max'];
+            }
+            
+            // Câmbio
+            if (!empty($filtros['cambio'])) {
+                $sql .= " AND c.cambio = ?";
+                $params[] = $filtros['cambio'];
+            }
+            
+            // Combustível
+            if (!empty($filtros['combustivel'])) {
+                $sql .= " AND c.combustivel = ?";
+                $params[] = $filtros['combustivel'];
+            }
+            
+            // Cor
+            if (!empty($filtros['cor'])) {
+                $sql .= " AND c.cor LIKE ?";
+                $params[] = '%' . $filtros['cor'] . '%';
+            }
+            
+            // Portas
+            if (!empty($filtros['portas']) && is_numeric($filtros['portas'])) {
+                $sql .= " AND c.portas = ?";
+                $params[] = (int)$filtros['portas'];
+            }
+            
+            // Status
+            if (!empty($filtros['status'])) {
+                $sql .= " AND c.status = ?";
+                $params[] = $filtros['status'];
+            }
+            
+            // Ordenação
+            $ordenacao = !empty($filtros['ordenar_por']) ? $filtros['ordenar_por'] : 'c.id';
+            $direcao = !empty($filtros['direcao']) ? $filtros['direcao'] : 'DESC';
+            
+            $camposValidos = ['c.id', 'c.modelo', 'c.ano', 'c.preco', 'c.km'];
+            if (!in_array($ordenacao, $camposValidos)) {
+                $ordenacao = 'c.id';
+            }
+            
+            if ($direcao !== 'ASC' && $direcao !== 'DESC') {
+                $direcao = 'DESC';
+            }
+            
+            $sql .= " ORDER BY {$ordenacao} {$direcao}";
             
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
