@@ -144,5 +144,51 @@ class Usuario {
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$userId]);
     }
+    
+    public function listarTodos() {
+        $sql = "SELECT id, nome, email, telefone, admin, data_cadastro, ultimo_acesso, ativo 
+                FROM usuarios ORDER BY data_cadastro DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function alterarStatus($id, $ativo) {
+        $sql = "UPDATE usuarios SET ativo = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$ativo ? 1 : 0, $id]);
+    }
+    
+    public function alterarAdmin($id, $admin) {
+        $sql = "UPDATE usuarios SET admin = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$admin ? 1 : 0, $id]);
+    }
+    
+    public function excluirUsuario($id) {
+        // Verifica se não é o último admin
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM usuarios WHERE admin = 1");
+        $stmt->execute();
+        $totalAdmins = $stmt->fetchColumn();
+        
+        $stmt = $this->db->prepare("SELECT admin FROM usuarios WHERE id = ?");
+        $stmt->execute([$id]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($usuario && $usuario['admin'] == 1 && $totalAdmins <= 1) {
+            throw new Exception("Não é possível excluir o último administrador do sistema.");
+        }
+        
+        $sql = "DELETE FROM usuarios WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+    
+    public function resetarSenha($id, $novaSenha) {
+        $senha_hash = password_hash($novaSenha, PASSWORD_DEFAULT);
+        $sql = "UPDATE usuarios SET senha = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$senha_hash, $id]);
+    }
 }
 ?>

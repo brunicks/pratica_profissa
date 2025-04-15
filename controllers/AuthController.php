@@ -43,33 +43,40 @@ class AuthController {
                     $usuario = $this->usuarioModel->login($email, $senha);
                     
                     if ($usuario) {
-                        // Update last login timestamp
-                        $this->usuarioModel->atualizarUltimoAcesso($usuario['id']);
-                        
-                        $_SESSION['user'] = [
-                            'id' => $usuario['id'],
-                            'nome' => $usuario['nome'],
-                            'email' => $usuario['email'],
-                            'admin' => $usuario['admin']
-                        ];
-                        
-                        // Handle remember me
-                        if ($lembrar) {
-                            $token = bin2hex(random_bytes(32)); // More secure token
-                            $this->usuarioModel->salvarToken($usuario['id'], $token);
-                            setcookie('remember_token', $token, time() + 60*60*24*30, '/', '', true, true); // Secure cookies
-                        }
-                        
-                        // Log successful login
-                        error_log("Login bem-sucedido para {$usuario['email']} em " . date('Y-m-d H:i:s'));
-                        
-                        // Redirect based on user role
-                        if ($usuario['admin'] == 1) {
-                            header('Location: index.php?url=admin/dashboard');
+                        // Verifica se a conta está ativa
+                        if ($usuario['ativo'] == 0) {
+                            $erro = "Esta conta foi desativada. Entre em contato com o administrador.";
+                            // Log da tentativa de acesso com conta desativada
+                            error_log("Tentativa de login em conta desativada: $email em " . date('Y-m-d H:i:s'));
                         } else {
-                            header('Location: index.php');
+                            // Continua com o processo de login para contas ativas
+                            $this->usuarioModel->atualizarUltimoAcesso($usuario['id']);
+                            
+                            $_SESSION['user'] = [
+                                'id' => $usuario['id'],
+                                'nome' => $usuario['nome'],
+                                'email' => $usuario['email'],
+                                'admin' => $usuario['admin']
+                            ];
+                            
+                            // Handle remember me
+                            if ($lembrar) {
+                                $token = bin2hex(random_bytes(32)); // More secure token
+                                $this->usuarioModel->salvarToken($usuario['id'], $token);
+                                setcookie('remember_token', $token, time() + 60*60*24*30, '/', '', true, true); // Secure cookies
+                            }
+                            
+                            // Log successful login
+                            error_log("Login bem-sucedido para {$usuario['email']} em " . date('Y-m-d H:i:s'));
+                            
+                            // Redirect based on user role
+                            if ($usuario['admin'] == 1) {
+                                header('Location: index.php?url=admin/dashboard');
+                            } else {
+                                header('Location: index.php');
+                            }
+                            exit;
                         }
-                        exit;
                     } else {
                         // Log failed login attempt
                         error_log("Tentativa de login falhou para $email em " . date('Y-m-d H:i:s'));

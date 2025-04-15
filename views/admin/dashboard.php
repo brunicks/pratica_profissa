@@ -37,6 +37,35 @@
             </div>
         </div>
         
+        <!-- Novo card para gerenciar usuários -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-users fa-fw me-2"></i> Usuários
+                    </h5>
+                    <p class="card-text">Gerencie contas de usuários e administradores.</p>
+                    <a href="/mvc/public/index.php?url=users" class="btn btn-light">
+                        <i class="fas fa-arrow-right"></i> Gerenciar
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-tags fa-fw me-2"></i> Gerenciar Marcas
+                    </h5>
+                    <p class="card-text">Cadastre, edite ou remova marcas de veículos.</p>
+                    <a href="/mvc/public/index.php?url=marca/listar" class="btn btn-light">
+                        <i class="fas fa-arrow-right"></i> Acessar
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-6 col-lg-3">
             <div class="card bg-info text-white">
                 <div class="card-body">
