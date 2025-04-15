@@ -240,6 +240,7 @@
                                 </a>
                                 
                                 <form action="index.php?url=carro/toggleDestaque" method="post" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
                                     <input type="hidden" name="id" value="<?php echo $carro['id']; ?>">
                                     <input type="hidden" name="destaque" value="<?php echo $carro['destaque'] ? '0' : '1'; ?>">
                                     <button type="submit" class="btn <?php echo $carro['destaque'] ? 'btn-warning' : 'btn-secondary'; ?>" 
@@ -248,34 +249,11 @@
                                     </button>
                                 </form>
                                 
-                                <button type="button" class="btn btn-danger" title="Excluir"
-                                        data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $carro['id']; ?>">
+                                <!-- Substituir o botão do modal por um link direto para a página de confirmação -->
+                                <a href="index.php?url=carro/confirmar&id=<?php echo $carro['id']; ?>" 
+                                   class="btn btn-danger" title="Excluir">
                                     <i class="fas fa-trash"></i>
-                                </button>
-                                
-                                <!-- Modal de confirmação de exclusão -->
-                                <div class="modal fade" id="deleteModal<?php echo $carro['id']; ?>" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger text-white">
-                                                <h5 class="modal-title">Confirmar Exclusão</h5>
-                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Deseja realmente excluir o veículo <strong><?php echo htmlspecialchars($carro['modelo']); ?> (<?php echo htmlspecialchars($carro['ano']); ?>)</strong>?</p>
-                                                <p class="text-danger"><strong>Esta ação não pode ser desfeita!</strong></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <form action="index.php?url=carro/excluir" method="post">
-                                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
-                                                    <input type="hidden" name="id" value="<?php echo $carro['id']; ?>">
-                                                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </a>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -289,30 +267,28 @@
 <script>
 // Inicializar o colapso com estado salvo
 document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar tooltip do Bootstrap
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Configurar comportamento do filtro avançado
     const filtrosEstado = localStorage.getItem('filtrosAvancadosAbertos');
     if (filtrosEstado === 'true') {
         document.getElementById('filtrosAvancados').classList.add('show');
     }
     
     const collapse = document.getElementById('filtrosAvancados');
-    collapse.addEventListener('shown.bs.collapse', () => {
-        localStorage.setItem('filtrosAvancadosAbertos', 'true');
-    });
-    collapse.addEventListener('hidden.bs.collapse', () => {
-        localStorage.setItem('filtrosAvancadosAbertos', 'false');
-    });
+    if (collapse) {
+        collapse.addEventListener('shown.bs.collapse', () => {
+            localStorage.setItem('filtrosAvancadosAbertos', 'true');
+        });
+        collapse.addEventListener('hidden.bs.collapse', () => {
+            localStorage.setItem('filtrosAvancadosAbertos', 'false');
+        });
+    }
 });
 </script>
-
-<style>
-.car-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.car-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-}
-</style>
 
 <?php include __DIR__ . '/footer.php'; ?>

@@ -59,6 +59,7 @@
             font-weight: 500;
         }
     </style>
+    <link rel="stylesheet" href="/mvc/public/styles/custom.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
