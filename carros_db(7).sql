@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15/04/2025 às 18:07
+-- Tempo de geração: 15/04/2025 às 20:56
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -35,7 +35,7 @@ CREATE TABLE `carros` (
   `imagem` varchar(255) DEFAULT NULL,
   `preco` decimal(10,2) NOT NULL DEFAULT 0.00,
   `km` int(11) NOT NULL DEFAULT 0,
-  `descricao` text DEFAULT NULL,
+  `descricao` text NOT NULL DEFAULT '',
   `destaque` tinyint(1) DEFAULT 0,
   `cambio` varchar(50) DEFAULT 'Manual',
   `combustivel` varchar(50) DEFAULT 'Gasolina',
@@ -55,10 +55,8 @@ CREATE TABLE `carros` (
 --
 
 INSERT INTO `carros` (`id`, `modelo`, `ano`, `marca_id`, `imagem`, `preco`, `km`, `descricao`, `destaque`, `cambio`, `combustivel`, `cor`, `potencia`, `created_at`, `placa`, `versao`, `portas`, `final_placa`, `views`, `status`) VALUES
-(1, 'Opala 6cil', 1974, 1, 'uploads/carros/1743030528_opala.jpg', 0.00, 0, '', 0, 'Manual', 'Gasolina', '', '', '2025-04-02 22:53:38', NULL, NULL, NULL, NULL, 0, 'disponivel'),
-(2, 'Fusca', 1982, 2, 'uploads/carros/1743030535_fucsa.jpg', 0.00, 0, '', 1, 'Manual', 'Gasolina', '', '', '2025-04-02 22:53:38', NULL, NULL, NULL, NULL, 9, 'disponivel'),
-(3, 'Porsche 911', 2022, 3, 'uploads/carros/1743030542_911.jpg', 0.00, 0, '', 0, 'Manual', 'Gasolina', '', '', '2025-04-02 22:53:38', NULL, NULL, NULL, NULL, 5, 'disponivel'),
-(4, 'Panamera', 2018, 3, 'uploads/carros/1743030747_panamera.jpg', 0.00, 0, '', 0, 'Manual', 'Gasolina', '', '', '2025-04-02 22:53:38', NULL, NULL, NULL, NULL, 1, 'disponivel');
+(1, 'Opala 6cil', 1974, 1, 'uploads/carros/1743030528_opala.jpg', 0.00, 0, '', 1, 'Manual', 'Gasolina', '', '', '2025-04-02 22:53:38', NULL, NULL, NULL, NULL, 2, 'disponivel'),
+(2, 'Fuscaaaaaaa', 1982, 2, 'uploads/carros/1743030535_fucsa.jpg', 0.00, 0, 'aaaaaaaaaaaaaaaaaaaa', 1, 'Manual', 'Gasolina', 'azul', '', '2025-04-02 22:53:38', NULL, NULL, NULL, NULL, 23, 'disponivel');
 
 --
 -- Acionadores `carros`
@@ -111,7 +109,9 @@ CREATE TABLE `marcas` (
 INSERT INTO `marcas` (`id`, `nome`) VALUES
 (1, 'Chevrolet'),
 (2, 'Volkswagen'),
-(3, 'Porsche');
+(3, 'Porsche'),
+(4, 'Toyota'),
+(5, 'BMW');
 
 -- --------------------------------------------------------
 
@@ -136,8 +136,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `telefone`, `admin`, `data_cadastro`, `ultimo_acesso`, `ativo`) VALUES
-(1, 'Admin', 'admin@exemplo.com', '$2y$10$URujO75d7YwxCGDEtT7I4.LxVK4FBife8bcyld8p3H5Vlkb8lFv.K', NULL, 1, '2025-04-15 11:42:44', NULL, 1),
-(2, 'bruno santos', 'brunicks02@gmail.com', '$2y$10$j7tGBpxdDvxXxpeqfAubdevNMNtu0E/CKe9Bz3BfLhs8ARv/aiZi2', '41997640205', 0, '2025-04-15 12:04:51', NULL, 1);
+(1, 'Admin', 'admin@exemplo.com', '$2y$10$URujO75d7YwxCGDEtT7I4.LxVK4FBife8bcyld8p3H5Vlkb8lFv.K', NULL, 1, '2025-04-15 11:42:44', '2025-04-15 14:23:05', 1),
+(2, 'bruno santossss', 'brunicks02@gmail.com', '$2y$10$j7tGBpxdDvxXxpeqfAubdevNMNtu0E/CKe9Bz3BfLhs8ARv/aiZi2', '41997640205', 0, '2025-04-15 12:04:51', '2025-04-15 14:22:48', 1);
 
 --
 -- Índices para tabelas despejadas
@@ -185,13 +185,13 @@ ALTER TABLE `carros`
 -- AUTO_INCREMENT de tabela `galeria_carros`
 --
 ALTER TABLE `galeria_carros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

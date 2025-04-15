@@ -1,0 +1,2 @@
+comando pra upar site: ssh -R 80:localhost:80 serveo.net
+so botar o /mvc/public no lugar do dashboard
